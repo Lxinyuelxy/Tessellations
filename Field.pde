@@ -7,20 +7,18 @@ class Field {
     this.side = side;
     cols = width / side;
     rows = height / side;
-    direction = new PVector[rows][cols];
+    direction = new PVector[cols][rows];
     init();   
   }
   
   void init() {
-    loadPixels();
-    for(int i = 0; i < cols; i++) {
-      for(int j = 0; j < rows; j++) {
-        int x = i * side;
-        int y = j * side;
-        int c = backgroundImg.pixels[x + y * backgroundImg.width];
-        
-        float theta = map(c, 0, 255, 0, TWO_PI);
-        direction[i][j] = PVector.fromAngle(theta);
+    for (int i = 0; i < cols; i++) {
+      for (int j = 0; j < rows; j++) {
+        //int x = i*side;
+        //int y = j*side;
+        //int c = backgroundImg.pixels[x + y * backgroundImg.width];
+        //float theta = map(brightness(c), 0, 255, 0, TWO_PI);
+        direction[i][j] = PVector.fromAngle(random(TWO_PI));
         direction[i][j].normalize();
       }
     }
@@ -42,5 +40,11 @@ class Field {
     rotate(v.heading());
     line(0,0,len,0);
     popMatrix();
+  }
+  
+  PVector lookup(PVector coordinate) {
+    int col = int(constrain(coordinate.x/side, 0, cols-1));
+    int row = int(constrain(coordinate.y/side, 0, rows-1));
+    return direction[col][row];
   }
 }
