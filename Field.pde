@@ -19,12 +19,13 @@ class Field {
         //int c = backgroundImg.pixels[x + y * backgroundImg.width];
         //float theta = map(brightness(c), 0, 255, 0, TWO_PI);
         direction[i][j] = PVector.fromAngle(random(TWO_PI));
+        //direction[i][j] = PVector.fromAngle(TWO_PI);
         direction[i][j].normalize();
       }
     }
   }
   
-  void display() { //<>//
+  void display() { //<>// //<>//
     for(int i = 0; i < cols; i++) {
       for(int j = 0; j < rows; j++) {
         drawVector(direction[i][j], i*side, j*side, side - 2);

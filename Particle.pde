@@ -4,10 +4,10 @@ class Particle {
   PVector acceleration;
   float maxforce;
   float maxspeed;
-  ArrayList<PVector> path;
+  ArrayList<PVector> path = new ArrayList<PVector>();
+  
   
   public Particle(PVector position, float maxspeed, float maxforce) {
-    path = new ArrayList<PVector>();
     this.position = position;
     this.maxspeed = maxspeed;
     this.maxforce = maxforce;
@@ -23,21 +23,25 @@ class Particle {
     velocity.add(acceleration);
     velocity.limit(maxspeed);
     position.add(velocity);
-    path.add(position);
+    path.add(position.copy());
+    allPaths.add(position);
     acceleration.mult(0);
   }
   
   private void display() {
     beginShape();
-    stroke(255);
-    strokeWeight(1);
+    stroke(0);
+    strokeWeight(3);
     noFill();
+    for(PVector v : path) {
+      vertex(v.x, v.y);
+    }
     pushMatrix();
     translate(position.x,position.y);
     ellipse(0,0,3,3);
     popMatrix();
     endShape();
-   
+ //<>// //<>//
   }
   public void followField(Field field) {
     PVector desired = field.lookup(position);
@@ -51,9 +55,19 @@ class Particle {
     acceleration.add(force);
   }
   
-  public boolean isEndMove(){
-    Curve parentCurve = new Curve(path);
-    parentCurve.generatorNewParticles();
-    return false;
+  public ArrayList<PVector> isEndMove(){
+    if(arriveBorders()) {
+      //Curve parentCurve = new Curve(path);
+      //parentCurve.generatorNewParticles();
+      return path;
+    }
+    return null;
+  }
+  
+  private boolean arriveBorders(){
+    if(position.x <= 0 || position.x >= width || position.y <= 0 || position.y >= height)
+      return true;
+    else
+      return false;
   }
 }
