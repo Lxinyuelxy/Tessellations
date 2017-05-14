@@ -2,15 +2,12 @@ class Particle {
   PVector position;
   PVector velocity;
   PVector acceleration;
-  float maxforce;
-  float maxspeed;
   ArrayList<PVector> path = new ArrayList<PVector>();
+  PVector originDirection;
   
-  
-  public Particle(PVector position, float maxspeed, float maxforce) {
+  public Particle(PVector position, PVector originDirection) {
     this.position = position;
-    this.maxspeed = maxspeed;
-    this.maxforce = maxforce;
+    this.originDirection = originDirection;
     this.acceleration = new PVector(0, 0);
     this.velocity = new PVector(0, 0);
   }
@@ -24,14 +21,13 @@ class Particle {
     velocity.limit(maxspeed);
     position.add(velocity);
     path.add(position.copy());
-    allPaths.add(position);
     acceleration.mult(0);
   }
   
   private void display() {
     beginShape();
     stroke(0);
-    strokeWeight(3);
+    strokeWeight(2);
     noFill();
     for(PVector v : path) {
       vertex(v.x, v.y);
@@ -40,11 +36,17 @@ class Particle {
     translate(position.x,position.y);
     ellipse(0,0,3,3);
     popMatrix();
-    endShape();
- //<>// //<>//
+    endShape(); //<>// //<>//
   }
+  
   public void followField(Field field) {
-    PVector desired = field.lookup(position);
+    PVector desired;
+    if(originDirection == null) {
+      desired = field.lookup(position);
+    }else{
+      desired = originDirection;
+      //originDirection = null;
+    }   
     desired.mult(maxspeed);
     PVector steer = PVector.sub(desired, velocity);
     steer.limit(maxforce);
@@ -55,13 +57,11 @@ class Particle {
     acceleration.add(force);
   }
   
-  public ArrayList<PVector> isEndMove(){
-    if(arriveBorders()) {
-      //Curve parentCurve = new Curve(path);
-      //parentCurve.generatorNewParticles();
-      return path;
-    }
-    return null;
+  public boolean isEndMove(){
+    if(arriveBorders() || occurOtherCurves()) 
+      return true;
+     else
+       return false;
   }
   
   private boolean arriveBorders(){
@@ -69,5 +69,20 @@ class Particle {
       return true;
     else
       return false;
+  }
+  
+  private boolean occurOtherCurves() {
+    if(allPaths.contains(position)) {
+      return true;
+    }      
+    else {
+      
+      return false;
+    }
+      
+  }
+  
+  public ArrayList<PVector> getPath() {
+    return path;
   }
 }
