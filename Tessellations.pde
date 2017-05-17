@@ -1,11 +1,10 @@
 import java.util.LinkedList;
 
 PImage backgroundImg;
-boolean showField = true;
 int startTime;
 Field field;
 LinkedList<Particle> particles;
-ArrayList<PVector> allPaths;
+ArrayList<PVector> trail;
 float maxspeed, maxforce;
 int side = 24; //<>//
 int initialTime;
@@ -17,29 +16,29 @@ void settings() {
 }
 
 void setup() {
+  background(255);
   field = new Field();
-  allPaths = new ArrayList<PVector>();
+  trail = new ArrayList<PVector>();
   particles = new LinkedList<Particle>();
-  maxspeed = 10000;
-  maxforce = 0.8;
-  particles.add(new Particle(new PVector(width/2, height/2), null));
+  maxspeed = 5;
+  maxforce = 0.1;
+  particles.add(new Particle(new PVector(width/2, height/2), new PVector(1.5, 2)));
 }
 
 void draw() {
-  background(255);
+  //background(255);
   //image(backgroundImg, 0, 0);
-  //if(showField) field.display();
-    
-  for(int i = particles.size()-1; i >= 0; i--) {
+
+  for(int i = 0; i < particles.size(); i++) {
     Particle p = particles.get(i);
     p.followField(field);
     p.run();
     if(p.isEndMove()) {     
       ArrayList<PVector> path = p.getPath();
-      Curve parentCurve = new Curve(path);
-      allPaths.addAll(path);
-      particles.remove(i);    
-      parentCurve.generatorNewParticles();
-    }
-  }
+      Curve parentCurve = new Curve(path);      
+      particles.remove(i); 
+      parentCurve.generatorNewParticles();   
+      i--;
+    }   
+  }  
 }
