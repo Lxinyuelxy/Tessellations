@@ -5,8 +5,6 @@ class Curve {
   public Curve(ArrayList<PVector> parentCurve) {
     this.parentCurve = parentCurve; 
     trailsOfParticles.add(parentCurve);
-    //println("parentCurve.size() = " + parentCurve.size());
-    //println("parentCurve = " + parentCurve);
   }
   
   void generatorNewParticles() {
@@ -16,7 +14,7 @@ class Curve {
         PVector pos = parentCurve.get(i);
         PVector velocity = pos.copy().sub(parentCurve.get(i-1).copy()).mult(flag);
         velocity.rotate(HALF_PI);
-        particles.add(new Particle(pos.copy(), velocity));
+        particles.add(new Particle(pos.copy(), velocity, IDCount++));
         println("generatePosition = " + pos.copy());
         flag = -1 * flag;
       }     

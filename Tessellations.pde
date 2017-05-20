@@ -22,7 +22,7 @@ void setup() {
   field = new Field();
   particles = new LinkedList<Particle>();
   maxspeed = 2.5; //the curve is more straight with the maxspeed faster
-  maxforce = 0.3; // the curve is more straight with the maxforce smaller
+  maxforce = 0.1; // the curve is more straight with the maxforce smaller
   particles.add(new Particle(new PVector(width/2, height/2), new PVector(1.5, 2), IDCount++));
   particles.add(new Particle(new PVector(width/2, height/2), new PVector(-1.5, -2), IDCount++));
   particles.add(new Particle(new PVector(width/2, height/2), new PVector(-2, 1.5), IDCount++));
@@ -36,8 +36,6 @@ void draw() {
     p.update();
     ArrayList<PVector> path = p.getPath();
     if(p.isEndMove()) {   
-      println("path = " + path);
-      println("path.size() = " + path.size());
       Curve parentCurve = new Curve(path);      
       particles.remove(i); 
       parentCurve.generatorNewParticles();   
