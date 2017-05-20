@@ -11,11 +11,14 @@ class Particle {
     this.position = position;
     this.acceleration = new PVector(0, 0);
     this.velocity = velocity;
+    this.id = id;
     path = new ArrayList<PVector>();
+    trailsOfParticles.put(id, new ArrayList<PVector>());
   }
   
   private void update() {
     path.add(position.copy());
+    trailsOfParticles.get(id).add(position.copy());
     velocity.add(acceleration);
     velocity.limit(maxspeed);
     acceleration.mult(0);
@@ -69,19 +72,16 @@ class Particle {
        return false;
   }
   
-  private boolean occurOtherCurves(PVector previousPos, PVector updatedPos) { //<>//
-    for(ArrayList<PVector> trail : trailsOfParticles) {
-      float dis1 = minDistanceOfPointToLine(previousPos.copy(), trail);   
-      float dis2 = minDistanceOfPointToLine(updatedPos.copy(), trail);     
+  private boolean occurOtherCurves(PVector previousPos, PVector updatedPos) {  //<>//
+    //println("trailsOfParticles.size() = " + trailsOfParticles.size());
+    for (Map.Entry<Integer, ArrayList<PVector>> entry : trailsOfParticles.entrySet()) {  
+      if(this.id == entry.getKey() || entry.getValue().size() == 0) continue;
+      float dis1 = minDistanceOfPointToLine(previousPos.copy(), entry.getValue());   
+      float dis2 = minDistanceOfPointToLine(updatedPos.copy(), entry.getValue());     
       if(dis1 > dis2 && dis2 <= maxspeed) {
-        println("*******************");
-        println("previousPos.copy() = " + previousPos.copy());
-        println("updatedPos = " + updatedPos);
-        println("dis1 = " + dis1);
-        println("dis2 = " + dis2);
         return true;
-      }
-    }
+      }      
+    } 
     return false;   
   }
   
