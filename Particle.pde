@@ -73,12 +73,11 @@ class Particle {
   }
   
   private boolean occurOtherCurves(PVector previousPos, PVector updatedPos) {  //<>//
-    //println("trailsOfParticles.size() = " + trailsOfParticles.size());
     for (Map.Entry<Integer, ArrayList<PVector>> entry : trailsOfParticles.entrySet()) {  
       if(this.id == entry.getKey() || entry.getValue().size() == 0) continue;
       float dis1 = minDistanceOfPointToLine(previousPos.copy(), entry.getValue());   
       float dis2 = minDistanceOfPointToLine(updatedPos.copy(), entry.getValue());     
-      if(dis1 > dis2 && dis2 <= maxspeed) {
+      if(dis1 > dis2 && dis2 <= velocity.mag()) {
         return true;
       }      
     } 

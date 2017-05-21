@@ -1,6 +1,6 @@
 class Curve {
   ArrayList<PVector> parentCurve;
-  int thresholdLen = 10;
+  
   
   public Curve(ArrayList<PVector> parentCurve) {
     this.parentCurve = parentCurve; 
@@ -8,6 +8,7 @@ class Curve {
   
   void generatorNewParticles() {
     int flag = 1;
+    int thresholdLen = 10;
     for(int i = 1; i < parentCurve.size(); i++) {
       if(i % thresholdLen == 0) {       
         PVector pos = parentCurve.get(i);
