@@ -24,7 +24,7 @@ void setup() {
   particles = new LinkedList<Particle>();
   trailsOfParticles = new HashMap<Integer, ArrayList<PVector>>();
   maxspeed = 3; //the curve is more straight with the maxspeed faster
-  maxforce = 0.8; // the curve is more straight with the maxforce smaller
+  maxforce = 0.1; // the curve is more straight with the maxforce smaller
   
   particles.add(new Particle(new PVector(width/2, height/2), new PVector(1.5, 0), IDCount++));
   particles.add(new Particle(new PVector(width/2, height/2), new PVector(-1.5, 0), IDCount++));
@@ -35,7 +35,7 @@ void setup() {
 }
 
 void draw() {
-  image(backgroundImg, 0, 0);
+  //image(backgroundImg, 0, 0);
   for(int i = 0; i < particles.size(); i++) {
     Particle p = particles.get(i);
     p.followField(field);
@@ -47,9 +47,9 @@ void draw() {
       parentCurve.generatorNewParticles();   
       i--;
     }
-    //else p.display();       
+    else p.display();       
   }  
-  display();
+  //display();
 }
 
 void display() {

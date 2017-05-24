@@ -28,7 +28,11 @@ class Particle {
   
   private void display() {
     beginShape();
-    stroke(255);
+    int sx = int(position.x);
+    int sy = int(position.y);
+    int loc = sx + sy * width;
+    color c = backgroundImg.pixels[loc];
+    stroke(c);
     strokeWeight(1);
     noFill();
     for(PVector v : path) {
