@@ -35,9 +35,11 @@ class Particle {
     stroke(c);
     strokeWeight(1);
     noFill();
-    for(PVector v : path) {
-      vertex(v.x, v.y);
-    }
+    //for(PVector v : path) {
+    //  vertex(v.x, v.y);
+    //}
+    vertex(this.previous.x, this.previous.y);
+    vertex(this.position.x, this.position.y);
     pushMatrix();
     translate(position.x,position.y);
     ellipse(0,0,1,1);
