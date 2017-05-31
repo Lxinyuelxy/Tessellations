@@ -30,8 +30,8 @@ void setup() {
   particles.add(new Particle(new PVector(width/2, height/2), new PVector(-1.5, 0), IDCount++));
   particles.add(new Particle(new PVector(width/2, height/2), new PVector(0, 1.5), IDCount++));
   
-  gui = new GUI(this);
-  gui.setup();
+  //gui = new GUI(this);
+  //gui.setup();
 }
 
 void draw() {

@@ -6,6 +6,7 @@ class Particle {
   float q;
   PVector previous;
   int id;
+  color c;
 
   public Particle(PVector position, PVector velocity, int id) {
     this.position = position;
@@ -31,7 +32,7 @@ class Particle {
     int sx = int(position.x);
     int sy = int(position.y);
     int loc = sx + sy * width;
-    color c = backgroundImg.pixels[loc];
+    this.c = backgroundImg.pixels[loc];
     stroke(c);
     strokeWeight(1);
     noFill();
