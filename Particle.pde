@@ -2,6 +2,7 @@ class Particle {
   PVector position;
   PVector velocity;
   PVector acceleration;
+  float maxspeed = 3, maxforce = gui.getRaduis();
   ArrayList<PVector> path;
   float q;
   PVector previous;
@@ -14,7 +15,7 @@ class Particle {
     this.velocity = velocity;
     this.id = id;
     path = new ArrayList<PVector>();
-    trailsOfParticles.put(id, new ArrayList<PVector>());
+   trailsOfParticles.put(id, new ArrayList<PVector>());
   }
   
   private void update() {
@@ -36,16 +37,13 @@ class Particle {
     stroke(c);
     strokeWeight(1);
     noFill();
-    //for(PVector v : path) {
-    //  vertex(v.x, v.y);
-    //}
     vertex(this.previous.x, this.previous.y);
     vertex(this.position.x, this.position.y);
     pushMatrix();
     translate(position.x,position.y);
     ellipse(0,0,1,1);
     popMatrix();
-    endShape(); //<>//
+    endShape();  //<>//
   }
   
   public void followField(Field field) { 
@@ -79,12 +77,13 @@ class Particle {
        return false;
   }
   
-  private boolean occurOtherCurves(PVector previousPos, PVector updatedPos) {  //<>//
+  private boolean occurOtherCurves(PVector previousPos, PVector updatedPos) {  //<>// //<>//
     for (Map.Entry<Integer, ArrayList<PVector>> entry : trailsOfParticles.entrySet()) {  
       if(this.id == entry.getKey() || entry.getValue().size() == 0) continue;
       float dis1 = minDistanceOfPointToLine(previousPos.copy(), entry.getValue());   
       float dis2 = minDistanceOfPointToLine(updatedPos.copy(), entry.getValue());     
       if(dis1 > dis2 && dis2 <= velocity.mag()) {
+        this.update();
         return true;
       }      
     } 

@@ -7,7 +7,8 @@ class Curve {
   
   void generatorNewParticles() {
     int flag = 1;
-    int thresholdLen = 2;
+    int thresholdLen = gui.getThreshold();
+    //int thresholdLen = 2;
     for(int i = 1; i < curve.size(); i++) {
       if(i % thresholdLen == 0) {       
         PVector pos = curve.get(i);
