@@ -15,7 +15,7 @@ class Particle {
     this.velocity = velocity;
     this.id = id;
     path = new ArrayList<PVector>();
-   trailsOfParticles.put(id, new ArrayList<PVector>());
+    trailsOfParticles.put(id, new ArrayList<PVector>());
   }
   
   private void update() {
