@@ -2,18 +2,20 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.HashMap;
 import controlP5.*;
+import gab.opencv.*;
 
 PImage backgroundImg;
 Field field;
 LinkedList<Particle> particles;
 HashMap<Integer, ArrayList<PVector>> trailsOfParticles;
+final boolean ISEDGE = true;
 
 int initialTime;
-int IDCount = 1;
+int IDCount = 0;
 GUI gui;
 
 void settings() { 
-  backgroundImg = loadImage("2.jpg");
+  backgroundImg = loadImage("8.jpg");
   size(backgroundImg.width, backgroundImg.height);
   initialTime = millis();
 }
@@ -26,18 +28,33 @@ void setup() {
   particles = new LinkedList<Particle>();
   trailsOfParticles = new HashMap<Integer, ArrayList<PVector>>();
   
-  //particles.add(new Particle(new PVector(width/2, height/2), new PVector(1.5, 0), IDCount++));
-  //particles.add(new Particle(new PVector(width/2, height/2), new PVector(-1.5, 0), IDCount++));
-  //particles.add(new Particle(new PVector(width/2, height/2), new PVector(0, 1.5), IDCount++));
+  //SobelEdgeDetection sobel = new SobelEdgeDetection();
+  //edge = sobel.getEdges(backgroundImg);
+  //Curve parentCurve = new Curve(edge, true);
+  //parentCurve.generatorNewParticles(); 
+  //trailsOfParticles.put(IDCount++, edge);
   
-  SobelEdgeDetection sobel = new SobelEdgeDetection();
-  ArrayList<PVector> edge = sobel.getEdges(backgroundImg);
-  trailsOfParticles.put(0, edge);
   
+  
+  OpenCV opencv = new OpenCV(this, backgroundImg);
+  opencv.gray();
+  opencv.threshold(50);
+  ArrayList<Contour> contours = opencv.findContours();
+  
+  for (Contour contour : contours) {
+    ArrayList<PVector> edge = new ArrayList<PVector>();
+    for (PVector point : contour.getPoints()) {
+      println("contour.getPoints().size() = " + contour.getPoints().size());
+      edge.add(new PVector(point.x, point.y));
+    }
+    //edges.add(edge);
+    trailsOfParticles.put(IDCount++, edge);
+    Curve parentCurve = new Curve(edge, ISEDGE);
+    parentCurve.generatorNewParticles();  
+  } 
 }
 
 void draw() {
-  //image(backgroundImg, 0, 0);
   background(255, 255, 255);
   for(int i = 0; i < particles.size(); i++) {
     Particle p = particles.get(i);
@@ -45,7 +62,7 @@ void draw() {
     p.update();
     ArrayList<PVector> path = p.getPath();
     if(p.isEndMove()) {   
-      Curve parentCurve = new Curve(path);      
+      Curve parentCurve = new Curve(path, false);      
       particles.remove(i); 
       parentCurve.generatorNewParticles();   
       i--;
@@ -58,13 +75,13 @@ void draw() {
 
 void display() {
   for (ArrayList<PVector> path : trailsOfParticles.values()) {  
-    for (PVector pos : path) {  
-      beginShape();
-      stroke(color(0,0,0));
-      strokeWeight(2);
-      noFill();
-      vertex(pos.x, pos.y);
-      endShape(); 
-    } 
-  }   
+    beginShape();
+    stroke(gui.getColor());
+    strokeWeight(gui.getThickness());
+    noFill();
+    for(PVector v : path) {  
+      vertex(v.x, v.y);     
+    }
+    endShape();   
+  } 
 }

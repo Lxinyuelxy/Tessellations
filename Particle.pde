@@ -2,7 +2,7 @@ class Particle {
   PVector position;
   PVector velocity;
   PVector acceleration;
-  float maxspeed = 3, maxforce = gui.getRaduis();
+  float maxspeed = 3, maxforce = 0.1;
   ArrayList<PVector> path;
   float q;
   PVector previous;

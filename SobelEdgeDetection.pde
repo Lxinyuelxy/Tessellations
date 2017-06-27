@@ -197,8 +197,10 @@ class SobelEdgeDetection
       for(int x = 0; x < img.width; x++)
       {
         color col =  g_img.pixels[ x + (y * img.width) ];
-        if(col == color(0,0,0))
-          edges.add(new PVector(x, y));
+        if(col == color(0,0,0)){
+          if(y != 0 && y != img.height-1 && x != 0 && x != img.width-1) edges.add(new PVector(x, y));
+        }
+          
       }
     }
     return edges;
