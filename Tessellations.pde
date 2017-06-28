@@ -15,7 +15,7 @@ int IDCount = 0;
 GUI gui;
 
 void settings() { 
-  backgroundImg = loadImage("8.jpg");
+  backgroundImg = loadImage("0.png");
   size(backgroundImg.width, backgroundImg.height);
   initialTime = millis();
 }
@@ -28,30 +28,11 @@ void setup() {
   particles = new LinkedList<Particle>();
   trailsOfParticles = new HashMap<Integer, ArrayList<PVector>>();
   
-  //SobelEdgeDetection sobel = new SobelEdgeDetection();
-  //edge = sobel.getEdges(backgroundImg);
-  //Curve parentCurve = new Curve(edge, true);
-  //parentCurve.generatorNewParticles(); 
-  //trailsOfParticles.put(IDCount++, edge);
+  //particles.add(new Particle(new PVector(width/2, height/2), new PVector(1.5, 0), IDCount++));
+  //particles.add(new Particle(new PVector(width/2, height/2), new PVector(-1.5, 0), IDCount++));
+  //particles.add(new Particle(new PVector(width/2, height/2), new PVector(0, 1.5), IDCount++));
   
-  
-  
-  OpenCV opencv = new OpenCV(this, backgroundImg);
-  opencv.gray();
-  opencv.threshold(50);
-  ArrayList<Contour> contours = opencv.findContours();
-  
-  for (Contour contour : contours) {
-    ArrayList<PVector> edge = new ArrayList<PVector>();
-    for (PVector point : contour.getPoints()) {
-      println("contour.getPoints().size() = " + contour.getPoints().size());
-      edge.add(new PVector(point.x, point.y));
-    }
-    //edges.add(edge);
-    trailsOfParticles.put(IDCount++, edge);
-    Curve parentCurve = new Curve(edge, ISEDGE);
-    parentCurve.generatorNewParticles();  
-  } 
+  generateInitialParticles();
 }
 
 void draw() {
@@ -70,7 +51,6 @@ void draw() {
     //else p.display();       
   }  
   display();
-  
 }
 
 void display() {
@@ -83,5 +63,26 @@ void display() {
       vertex(v.x, v.y);     
     }
     endShape();   
+  } 
+}
+
+void generateInitialParticles() {
+  OpenCV opencv = new OpenCV(this, backgroundImg);
+  opencv.loadImage(backgroundImg);
+  opencv.gray();
+  opencv.blur(3);
+  opencv.findCannyEdges(20, 75);
+  PImage canny = opencv.getSnapshot();
+  opencv.loadImage(canny);  
+  ArrayList<Contour> contours = opencv.findContours();
+  
+  for (Contour contour : contours) {
+    ArrayList<PVector> edge = new ArrayList<PVector>();
+    for (PVector point : contour.getPoints()) {
+      edge.add(new PVector(point.x, point.y));
+    }
+    trailsOfParticles.put(IDCount++, edge);
+    Curve parentCurve = new Curve(edge, ISEDGE);
+    parentCurve.generatorNewParticles();        
   } 
 }

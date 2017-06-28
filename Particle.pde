@@ -2,7 +2,7 @@ class Particle {
   PVector position;
   PVector velocity;
   PVector acceleration;
-  float maxspeed = 3, maxforce = 0.1;
+  float maxspeed = 1, maxforce = 0.05;
   ArrayList<PVector> path;
   float q;
   PVector previous;
@@ -77,7 +77,7 @@ class Particle {
        return false;
   }
   
-  private boolean occurOtherCurves(PVector previousPos, PVector updatedPos) {  //<>// //<>//
+  private boolean occurOtherCurves(PVector previousPos, PVector updatedPos) {  //<>//
     for (Map.Entry<Integer, ArrayList<PVector>> entry : trailsOfParticles.entrySet()) {  
       if(this.id == entry.getKey() || entry.getValue().size() == 0) continue;
       float dis1 = minDistanceOfPointToLine(previousPos.copy(), entry.getValue());   
