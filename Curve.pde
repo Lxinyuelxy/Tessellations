@@ -3,12 +3,9 @@ class Curve {
   int thresholdLen;
   color strokeColor;
   
-  public Curve(ArrayList<PVector> curve, boolean isEdge) {
+  public Curve(ArrayList<PVector> curve) {
     this.curve = curve;   
-    if(isEdge) 
-      thresholdLen = 50;    
-    else 
-      thresholdLen = 15;     
+    thresholdLen = 5;     
   }
   
   void generatorNewParticles() {
