@@ -35,7 +35,7 @@ class Particle {
     int loc = sx + sy * width;
     this.c = backgroundImg.pixels[loc];
     stroke(c);
-    strokeWeight(1);
+    strokeWeight(0.6);
     noFill();
     vertex(this.previous.x, this.previous.y);
     vertex(this.position.x, this.position.y);
@@ -43,7 +43,7 @@ class Particle {
     translate(position.x,position.y);
     ellipse(0,0,1,1);
     popMatrix();
-    endShape();  //<>//
+    endShape();   //<>//
   }
   
   public void followField(Field field) { 
@@ -77,7 +77,7 @@ class Particle {
        return false;
   }
   
-  private boolean occurOtherCurves(PVector previousPos, PVector updatedPos) {  //<>//
+  private boolean occurOtherCurves(PVector previousPos, PVector updatedPos) {  //<>// //<>//
     for (Map.Entry<Integer, ArrayList<PVector>> entry : trailsOfParticles.entrySet()) {  
       if(this.id == entry.getKey() || entry.getValue().size() == 0) continue;
       float dis1 = minDistanceOfPointToLine(previousPos.copy(), entry.getValue());   
