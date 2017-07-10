@@ -28,10 +28,6 @@ void setup() {
   particles = new LinkedList<Particle>();
   trailsOfParticles = new HashMap<Integer, ArrayList<PVector>>();
   
-  //particles.add(new Particle(new PVector(width/2, height/2), new PVector(1.5, 0), IDCount++));
-  //particles.add(new Particle(new PVector(width/2, height/2), new PVector(-1.5, 0), IDCount++));
-  //particles.add(new Particle(new PVector(width/2, height/2), new PVector(0, 1.5), IDCount++));
-  
   generateInitialParticles();
 }
 
@@ -43,12 +39,11 @@ void draw() {
     p.update();
     ArrayList<PVector> path = p.getPath();
     if(p.isEndMove()) {   
-      Curve parentCurve = new Curve(path, false);      
+      Curve parentCurve = new Curve(path, !ISEDGE);      
       particles.remove(i); 
       parentCurve.generatorNewParticles();   
       i--;
     }
-    //else p.display();       
   }  
   display();
 }

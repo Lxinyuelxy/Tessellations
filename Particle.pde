@@ -28,24 +28,6 @@ class Particle {
     position.add(velocity);         
   }
   
-  private void display() {
-    beginShape();
-    int sx = int(position.x);
-    int sy = int(position.y);
-    int loc = sx + sy * width;
-    this.c = backgroundImg.pixels[loc];
-    stroke(c);
-    strokeWeight(1);
-    noFill();
-    vertex(this.previous.x, this.previous.y);
-    vertex(this.position.x, this.position.y);
-    pushMatrix();
-    translate(position.x,position.y);
-    ellipse(0,0,1,1);
-    popMatrix();
-    endShape();  //<>//
-  }
-  
   public void followField(Field field) { 
     PVector desired = field.lookup((float)getCharge(), velocity);  
     desired.mult(maxspeed);
@@ -61,7 +43,7 @@ class Particle {
     else
       return Math.pow(500 - time, 0.8) * (-1);
   }
-  
+   //<>//
   private void applyForce(PVector force) {
     acceleration.add(force);
   }
@@ -95,7 +77,7 @@ class Particle {
     for(int i = 1; i < trail.size(); i++) {
       float dis = dist(point.x, point.y, trail.get(i).x, trail.get(i).y);
       if(dis < minDis) minDis = dis;
-    }
+    } //<>//
     return minDis;
   }
  
