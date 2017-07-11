@@ -39,11 +39,7 @@ class Particle {
     noFill();
     vertex(this.previous.x, this.previous.y);
     vertex(this.position.x, this.position.y);
-    //pushMatrix();
-    //translate(position.x,position.y);
-    //ellipse(0,0,1,1);
-    //popMatrix();
-    endShape();   //<>//
+    endShape(); 
   }
   
   public void followField(Field field) { 
