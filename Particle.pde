@@ -2,7 +2,7 @@ class Particle {
   PVector position;
   PVector velocity;
   PVector acceleration;
-  float maxspeed = 1, maxforce = 0.05;
+  float maxspeed = 3, maxforce = 0.1;
   ArrayList<PVector> path;
   float q;
   PVector previous;
@@ -35,14 +35,14 @@ class Particle {
     int loc = sx + sy * width;
     this.c = backgroundImg.pixels[loc];
     stroke(c);
-    strokeWeight(0.6);
+    strokeWeight(2);
     noFill();
     vertex(this.previous.x, this.previous.y);
     vertex(this.position.x, this.position.y);
-    pushMatrix();
-    translate(position.x,position.y);
-    ellipse(0,0,1,1);
-    popMatrix();
+    //pushMatrix();
+    //translate(position.x,position.y);
+    //ellipse(0,0,1,1);
+    //popMatrix();
     endShape();   //<>//
   }
   

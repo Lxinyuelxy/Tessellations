@@ -1,8 +1,6 @@
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.HashMap;
-import controlP5.*;
-import gab.opencv.*;
 
 PImage backgroundImg;
 Field field;
@@ -30,7 +28,6 @@ void setup() {
 }
 
 void draw() {
-  
   for(int i = 0; i < particles.size(); i++) {
     Particle p = particles.get(i);
     p.followField(field);
